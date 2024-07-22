@@ -1,7 +1,7 @@
 ## Hierarchy Layout
 
 ### Screenshots
-![SCREENSHOT.png](SCREENSHOT.png)
+![SCREENSHOT.png](./SCREENSHOT.png)
 
 ## Installation
 ```bash

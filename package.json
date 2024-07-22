@@ -12,10 +12,13 @@
         "hierarchy",
         "hierarchy layout"
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/codihaus/directus-extension-hierarchy-layout"
+    },
     "type": "module",
     "files": [
-        "dist",
-        "SCREENSHOT.png"
+        "dist"
     ],
     "directus:extension": {
         "type": "layout",
