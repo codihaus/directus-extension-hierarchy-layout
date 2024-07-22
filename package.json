@@ -2,7 +2,7 @@
     "name": "directus-extension-hierarchy-layout",
     "description": "",
     "icon": "extension",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "keywords": [
         "directus",
         "directus-extension",
