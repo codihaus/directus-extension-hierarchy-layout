@@ -1,0 +1,45 @@
+{
+    "name": "directus-extension-hierarchy-layout",
+    "description": "",
+    "icon": "extension",
+    "version": "1.0.2",
+    "keywords": [
+        "directus",
+        "directus-extension",
+        "directus-extension-layout",
+        "treeview",
+        "parent-child layout",
+        "hierarchy",
+        "hierarchy layout"
+    ],
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "directus:extension": {
+        "type": "layout",
+        "path": "./dist/index.js",
+        "source": "src/index.ts",
+        "host": "^10.10.0"
+    },
+    "scripts": {
+        "build": "directus-extension build",
+        "build:beta": "directus-extension build --no-minify",
+        "dev": "directus-extension build -w --no-minify",
+        "link": "directus-extension link"
+    },
+    "devDependencies": {
+        "@directus/extensions-sdk": "11.0.9",
+        "typescript": "^5.5.3",
+        "vue": "^3.4.32"
+    },
+    "dependencies": {
+        "vue-i18n": "^9.13.1",
+        "vue-router": "^4.4.0",
+        "vuedraggable": "4.1.0"
+    },
+    "author": {
+        "email": "contact@codihaus.com",
+        "name": "Codihaus"
+    }
+}
