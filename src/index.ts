@@ -10,6 +10,7 @@ import ForestOptions from "./hierarchy-options.vue";
 import {computed, ref, toRefs, unref} from 'vue';
 import {syncRefProperty} from "./composables/use.sync.ref.property";
 import {useRouter} from "vue-router";
+import {adjustFieldsForDisplays} from "./composables/adjust-fields-for-displays";
 
 export default defineLayout({
     id: 'hierarchy',
@@ -48,13 +49,20 @@ export default defineLayout({
                     fields.push(info.value.meta.sort_field);
                 }
 
+                const templateFields: string[] = [];
                 if(optTitle.value) {
-                    fields.push(
+                    templateFields.push(
                         ...getFieldsFromTemplate(optTitle.value)
                     );
                 }
-
-                return [...fields];
+                console.log([
+                    templateFields,
+                    adjustFieldsForDisplays(templateFields, props.collection),
+                ])
+                return [
+                    ...fields,
+                    ...adjustFieldsForDisplays(templateFields, props.collection),
+                ];
             });
 
             return { sort, limit, page, fields };

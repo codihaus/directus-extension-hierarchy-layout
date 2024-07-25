@@ -2,7 +2,7 @@
     "name": "directus-extension-hierarchy-layout",
     "description": "",
     "icon": "extension",
-    "version": "1.0.7",
+    "version": "1.0.6",
     "keywords": [
         "directus",
         "directus-extension",
@@ -31,15 +31,16 @@
         "build:beta": "directus-extension build --no-minify",
         "dev": "directus-extension build -w --no-minify",
         "link": "directus-extension link",
-        "release": "pnpm run build:beta && changelogen --release && pnpm publish && git push --follow-tags --no-git-checks"
+        "release": "npx changelogen --release && npm publish && git push --follow-tags"
     },
     "devDependencies": {
         "@directus/extensions-sdk": "11.0.9",
+        "changelogen": "^0.5.5",
         "typescript": "^5.5.3",
-        "vue": "^3.4.32",
-        "changelogen": "^0.5.5"
+        "vue": "^3.4.32"
     },
     "dependencies": {
+        "@directus/extension-sdk": "9.0.0-rc.91",
         "vue-i18n": "^9.13.1",
         "vue-router": "^4.4.0",
         "vuedraggable": "4.1.0"

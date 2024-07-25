@@ -1,5 +1,33 @@
 # Changelog
 
+## v1.0.8
+
+[compare changes](https://github.com/codihaus/directus-extension-hierarchy-layout/compare/v1.0.7...v1.0.8)
+
+### 📦 Build
+
+- Build ext , changelog ([ad27093](https://github.com/codihaus/directus-extension-hierarchy-layout/commit/ad27093))
+
+### ❤️ Contributors
+
+- TranQuangMinh <contact@codihaus.com>
+
+## v1.0.7
+
+[compare changes](https://github.com/codihaus/directus-extension-hierarchy-layout/compare/v1.0.7...v1.0.7)
+
+### 📦 Build
+
+- Build ext , changelog ([ad27093](https://github.com/codihaus/directus-extension-hierarchy-layout/commit/ad27093))
+
+### ❤️ Contributors
+
+- TranQuangMinh <contact@codihaus.com>
+
+## v1.0.6
+
+[compare changes](https://github.com/codihaus/directus-extension-hierarchy-layout/compare/v1.0.7...v1.0.6)
+
 ## v1.0.7
 
 [compare changes](https://github.com/codihaus/directus-extension-hierarchy-layout/compare/v1.0.6...v1.0.7)

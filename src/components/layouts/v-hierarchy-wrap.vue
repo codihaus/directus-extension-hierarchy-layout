@@ -1,7 +1,5 @@
 <template>
-	<div class="forest-view-wrap"
-
-	>
+	<div class="forest-view-wrap">
 		<v-list-item
 			block
 			dense
@@ -16,7 +14,10 @@
 			</v-list-item-icon>
 
 			<div class="" style="flex-grow: 1">
-				<render-template :collection="collection" :item="item" :template="optTitle"/>
+				<render-template
+					:collection="collection"
+					:item="item"
+					:template="optTitle"/>
 			</div>
 
 			<div>
@@ -41,8 +42,9 @@
 
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 const expand = ref(true);
 
 const props = defineProps<{
@@ -69,9 +71,11 @@ const selectedClass = computed(() => {
 .collection-item {
 	margin-top: 8px;
 }
+
 .unfold_less {
 	opacity: 0.4;
 }
+
 .forest-view-wrap .group.selected {
 	background-color: var(--theme--background-normal) !important;
 	border-color: var(--theme--primary-subdued) !important;
