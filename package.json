@@ -2,7 +2,7 @@
     "name": "directus-extension-hierarchy-layout",
     "description": "",
     "icon": "extension",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "keywords": [
         "directus",
         "directus-extension",
@@ -31,7 +31,7 @@
         "build:beta": "directus-extension build --no-minify",
         "dev": "directus-extension build -w --no-minify",
         "link": "directus-extension link",
-        "release": "pnpm run build:beta && changelogen --release && pnpm publish && git push --follow-tags"
+        "release": "pnpm run build:beta && changelogen --release && pnpm publish && git push --follow-tags --no-git-checks"
     },
     "devDependencies": {
         "@directus/extensions-sdk": "11.0.9",
