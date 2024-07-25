@@ -3,13 +3,13 @@ import {
     getFieldsFromTemplate,
     useCollection,
     useItems,
-    useStores,
     useSync
 } from '@directus/extensions-sdk';
 import LayoutComponent from './layout.vue';
 import ForestOptions from "./hierarchy-options.vue";
-import {computed, ref, toRefs} from 'vue';
+import {computed, ref, toRefs, unref} from 'vue';
 import {syncRefProperty} from "./composables/use.sync.ref.property";
+import {useRouter} from "vue-router";
 
 export default defineLayout({
     id: 'hierarchy',
@@ -26,6 +26,7 @@ export default defineLayout({
         const selection = useSync(props, 'selection', emit);
         const layoutOptions = useSync(props, 'layoutOptions', emit);
         const layoutQuery = useSync(props, 'layoutQuery', emit);
+        const router = useRouter()
 
         const {collection, filter, search, filterUser} = toRefs(props);
         const {info, primaryKeyField, fields: fieldsInCollection} = useCollection(collection);
@@ -97,6 +98,7 @@ export default defineLayout({
                 return field.schema?.foreign_key_table === props.collection;
             });
         })
+
         if (relationFields.value.length === 0) {
             optParentField.value = relationFields.value[0].field;
         }
@@ -130,7 +132,7 @@ export default defineLayout({
                     selection.value = selection.value.filter((item) => item !== primaryKey);
                 }
             } else {
-                const route = getItemRoute(unref(collection), primaryKey);
+                const route = `/content/${unref(collection)}/${primaryKey}`;
 
                 if (event.ctrlKey || event.metaKey) window.open(router.resolve(route).href, '_blank');
                 else router.push(route);

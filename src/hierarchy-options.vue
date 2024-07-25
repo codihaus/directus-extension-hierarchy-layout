@@ -1,13 +1,17 @@
 <template>
 	<div class="field">
-		<div class="type-label">{{ t('layouts.hierarchy_view.parent_field') }}</div>
+		<div class="type-label">
+			Parent Field
+		</div>
 		<v-select v-model="optParentFieldWritable" show-deselect
 		          item-value="field" item-text="name"
 		          :items="relationFields"
 		/>
 	</div>
 	<div class="field">
-		<div class="type-label">{{ t('layouts.hierarchy_view.title_field') }}</div>
+		<div class="type-label">
+			Templated Title
+		</div>
 		<v-collection-field-template v-model="optTitleWritable" :collection="collection" />
 	</div>
 </template>
