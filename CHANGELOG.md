@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.7
+
+[compare changes](https://github.com/codihaus/directus-extension-hierarchy-layout/compare/v1.0.7...v1.0.7)
+
 ## v1.0.8
 
 [compare changes](https://github.com/codihaus/directus-extension-hierarchy-layout/compare/v1.0.7...v1.0.8)
