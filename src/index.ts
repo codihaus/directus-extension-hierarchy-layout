@@ -65,10 +65,26 @@ export default defineLayout({
                         ...getFieldsFromTemplate(optTitle.value)
                     );
                 }
-                return [
-                    ...fields,
-                    ...adjustFieldsForDisplays(templateFields, props.collection, {fieldsStore, extensions}),
-                ];
+
+                const titleFields = adjustFieldsForDisplays(templateFields, props.collection, {
+                    fieldsStore,
+                    extensions,
+                });
+
+                /**
+                 * A title that reads a field off the parent relation
+                 * (`{{parent.title}}`, or a `{{parent}}` whose display expands to
+                 * one) makes Directus answer with the related object instead of
+                 * the bare key, and that object holds only the fields that were
+                 * asked for. Request the parent's primary key alongside, so
+                 * `useBuildForest` can read the id back out; without it every
+                 * lookup misses and the tree renders as a flat list.
+                 */
+                if (titleFields.some((field) => field.startsWith(`${optParentField.value}.`))) {
+                    fields.push(`${optParentField.value}.${primaryKeyField.value.field}`);
+                }
+
+                return [...fields, ...titleFields];
             });
 
             return { sort, limit, page, fields };
