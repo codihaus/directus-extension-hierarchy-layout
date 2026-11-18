@@ -2,12 +2,14 @@ import {
     defineLayout,
     getFieldsFromTemplate,
     useCollection,
+    useExtensions,
     useItems,
+    useStores,
     useSync
 } from '@directus/extensions-sdk';
 import LayoutComponent from './layout.vue';
 import ForestOptions from "./hierarchy-options.vue";
-import {computed, ref, toRefs, unref} from 'vue';
+import {computed, ref, toRefs, unref, watch} from 'vue';
 import {syncRefProperty} from "./composables/use.sync.ref.property";
 import {useRouter} from "vue-router";
 import {adjustFieldsForDisplays} from "./composables/adjust-fields-for-displays";
@@ -32,6 +34,14 @@ export default defineLayout({
         const {collection, filter, search, filterUser} = toRefs(props);
         const {info, primaryKeyField, fields: fieldsInCollection} = useCollection(collection);
 
+        // Resolve inject-based dependencies once, here in setup(), where Vue's
+        // `inject` is valid. Passing them into the `fields` computed avoids calling
+        // `useStores`/`useExtensions` on re-evaluation when this layout component is
+        // reused across collections and no component instance is active.
+        const {useFieldsStore} = useStores();
+        const fieldsStore = useFieldsStore();
+        const extensions = useExtensions();
+
         function useLayoutQuery() {
             const page = syncRefProperty(layoutQuery, 'page', 1);
             const limit = syncRefProperty(layoutQuery, 'limit', -1);
@@ -55,14 +65,26 @@ export default defineLayout({
                         ...getFieldsFromTemplate(optTitle.value)
                     );
                 }
-                console.log([
-                    templateFields,
-                    adjustFieldsForDisplays(templateFields, props.collection),
-                ])
-                return [
-                    ...fields,
-                    ...adjustFieldsForDisplays(templateFields, props.collection),
-                ];
+
+                const titleFields = adjustFieldsForDisplays(templateFields, props.collection, {
+                    fieldsStore,
+                    extensions,
+                });
+
+                /**
+                 * A title that reads a field off the parent relation
+                 * (`{{parent.title}}`, or a `{{parent}}` whose display expands to
+                 * one) makes Directus answer with the related object instead of
+                 * the bare key, and that object holds only the fields that were
+                 * asked for. Request the parent's primary key alongside, so
+                 * `useBuildForest` can read the id back out; without it every
+                 * lookup misses and the tree renders as a flat list.
+                 */
+                if (titleFields.some((field) => field.startsWith(`${optParentField.value}.`))) {
+                    fields.push(`${optParentField.value}.${primaryKeyField.value.field}`);
+                }
+
+                return [...fields, ...titleFields];
             });
 
             return { sort, limit, page, fields };
@@ -107,7 +129,10 @@ export default defineLayout({
             });
         })
 
-        if (relationFields.value.length === 0) {
+        if (
+            relationFields.value.length > 0 &&
+            !relationFields.value.some(field => field.field === optParentField.value)
+        ) {
             optParentField.value = relationFields.value[0].field;
         }
 
@@ -121,6 +146,7 @@ export default defineLayout({
                 filter,
                 search,
             });
+        watch(fields, () => getItems());
 
         function getLinkForItem(item: Record<string, any>) {
             if (!primaryKeyField.value) return;

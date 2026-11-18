@@ -40,7 +40,6 @@
         "vue": "^3.4.32"
     },
     "dependencies": {
-        "@directus/extension-sdk": "9.0.0-rc.91",
         "vue-i18n": "^9.13.1",
         "vue-router": "^4.4.0",
         "vuedraggable": "4.1.0"

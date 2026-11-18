@@ -61,14 +61,27 @@ const itemsRenders = computed({
 const api = useApi()
 const updateItems = async (vl) => {
 	const {parent, items}  = vl;
+
+	/**
+	 * The drop knows the new parent by key alone, but the rows were loaded the
+	 * way the title template needs them — `{{parent.name}}` reads through the
+	 * relation, which a bare key cannot satisfy, and `render-template` prints
+	 * `--` for it. So move the loaded row in, not the key.
+	 *
+	 * Re-reading the list instead is worse than it looks: the response carries
+	 * an ETag, so the conditional GET comes back `304` and the browser serves
+	 * the copy it took *before* the drop, undoing the move on screen.
+	 */
+	const parentRow = parent === null ? null : props.items.find((item) => item.id === parent);
+
 	for (let vlItem of items) {
 		const item = props.items.find((item) => item.id === vlItem.id);
 		item.sort = vlItem.sort;
-		item[props.optParentField] = parent
+		item[props.optParentField] = parentRow ?? parent
 
 		api.patch(`/items/${props.collection}/${item.id}`, {
 			sort: item.sort,
-			[props.optParentField]: item.parent
+			[props.optParentField]: parent
 		}).then(res => res)
 	}
 }
